@@ -19,7 +19,7 @@ var rdw = new RdwClient();
 var car = rdw.GetCar("1-BBB-11");		 
 // or GetCarAsync("1-BBB-11");
 
-Console.WriteLine(car.Brand); 				// output: BMW
+Console.WriteLine(car.Brand);               // output: BMW
 ```
 
 ### Fuel info
@@ -27,11 +27,11 @@ Console.WriteLine(car.Brand); 				// output: BMW
 var fuelInfo = rdw.GetFuelInfo("1-BBB-11");
 // or GetFuelInfoAsync("1-BBB-11");
 
-Console.WriteLine(fuelInfo.PowerHp);		// output: 140
+Console.WriteLine(fuelInfo.PowerHp);        // output: 140
 ```
 
 Note: The `Car` model also contains a `FuelInfo` property that will automatically get the fuel info when accessed:
 ```csharp
 var car = rdw.GetCar("1-BBB-11");
-Console.WriteLine(car.FuelInfo.PowerHp)		// output: 140
+Console.WriteLine(car.FuelInfo.PowerHp);    // output: 140
 ```
