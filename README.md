@@ -1,12 +1,18 @@
 # RdwApi
 A wrapper for the Rdw OpenData Api
 
+## About
+This library is spread so that other developers don't have to bother with wrong
+status codes, integers in strings, incorrect boolean usage, weird date formats (yyyymmdd)
+and empty lists when an item isn't found.
+
 ## Endpoints
 For now the endpoints that are available are:
  - Car info 
  - Car fuel info
 
 You **DON'T** need an Api Key for these endpoints. 
+
 
 ## Usage
 ### Initialize
