@@ -36,7 +36,8 @@ var fuelInfo = rdw.GetFuelInfo("1-BBB-11");
 Console.WriteLine(fuelInfo.PowerHp);        // output: 140
 ```
 
-Note: The `Car` model also contains a `FuelInfo` property that will automatically get the fuel info when accessed:
+Note: The `Car` model also contains a `FuelInfo` property that will run the `GetFuelInfo()` method in the 
+background when first accessed:
 ```csharp
 var car = rdw.GetCar("1-BBB-11");
 Console.WriteLine(car.FuelInfo.PowerHp);    // output: 140
