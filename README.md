@@ -20,6 +20,8 @@ You **DON'T** need an Api Key for these endpoints.
 var rdw = new RdwClient();
 ```
 
+In these examples I use full license plates: `1-BBB-11`. You can also use a license plate without dashes: `1BBB11`.
+
 ### Car info
 ```csharp
 var car = rdw.GetCar("1-BBB-11");		 
