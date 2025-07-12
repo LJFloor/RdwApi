@@ -1,0 +1,57 @@
+name: Publish to NuGet
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+    
+    - name: Extract version from project file
+      id: get-version
+      run: |
+        VERSION=$(grep -oP '<Version>\K[^<]+' RdwApi.csproj)
+        echo "project-version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Project version: $VERSION"
+    
+    - name: Check if package exists on NuGet
+      id: check-nuget
+      run: |
+        PACKAGE_NAME="RdwApi"
+        PROJECT_VERSION="${{ steps.get-version.outputs.project-version }}"
+        
+        # Check if this specific version exists on NuGet
+        RESPONSE=$(curl -s "https://api.nuget.org/v3-flatcontainer/$PACKAGE_NAME/index.json" || echo '{"versions":[]}')
+        
+        if echo "$RESPONSE" | grep -q "\"$PROJECT_VERSION\""; then
+          echo "version-exists=true" >> $GITHUB_OUTPUT
+          echo "Version $PROJECT_VERSION already exists on NuGet"
+        else
+          echo "version-exists=false" >> $GITHUB_OUTPUT
+          echo "Version $PROJECT_VERSION does not exist on NuGet, proceeding with publish"
+        fi
+    
+    - name: Restore dependencies
+      if: steps.check-nuget.outputs.version-exists == 'false'
+      run: dotnet restore
+    
+    - name: Build
+      if: steps.check-nuget.outputs.version-exists == 'false'
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Pack
+      if: steps.check-nuget.outputs.version-exists == 'false'
+      run: dotnet pack --configuration Release --no-build --output ./nupkg
+    
+    - name: Publish to NuGet
+      if: steps.check-nuget.outputs.version-exists == 'false'
+      run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
