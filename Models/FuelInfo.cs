@@ -18,9 +18,18 @@ namespace RdwApi.Models
 
         [JsonPropertyName("brandstofverbruik_stad")]
         public float CityConsumption { get; init; }
+        
+        [JsonPropertyName("brandstof_verbruik_gecombineerd_wltp")]
+        public float CombinedConsumptionWltp { get; init; }
+        
+        [JsonPropertyName("emis_deeltjes_type1_wltp")]
+        public float ParticleEmissionType1Wltp { get; init; }
 
         [JsonPropertyName("co2_uitstoot_gecombineerd")]
         public int AverageCO2Emission { get; init; }
+        
+        [JsonPropertyName("emissie_co2_gecombineerd_wltp")]
+        public int AverageCO2EmissionWltp { get; init; }
 
         [JsonPropertyName("geluidsniveau_rijdend")]
         public int SoundLevelDriving { get; init; }
@@ -36,6 +45,9 @@ namespace RdwApi.Models
 
         [JsonPropertyName("nettomaximumvermogen")]
         public float PowerKw { get; init; }
+        
+        [JsonPropertyName("uitlaatemissieniveau")]
+        public string EuropeanEmissionStandard { get; init; }
 
         public float PowerHp => (float)(PowerKw / 0.745699872);
 
